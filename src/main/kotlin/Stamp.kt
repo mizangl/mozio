@@ -1,3 +1,5 @@
+import kotlin.math.max
+
 fun exchangeKotlinCollection(
     janeStamps: List<Int>,
     aliceStamps: List<Int>,
@@ -36,20 +38,13 @@ fun exchangeWithMapList(
         val secondExchange = mutableListOf<Int>()
 
         for (index in array1.indices) {
-            if (index > array2.indices.last) {
-                if (array1[index] - spare > 0)
-                    repeat(array1[index] - spare) {
-                        firstExchange.add(index)
-                    }
-            } else {
-                if (array2[index] < spare && array1[index] > spare) {
-                    repeat(array1[index] - spare) {
-                        firstExchange.add(index)
-                    }
-                } else if (array2[index] > spare && array1[index] < spare) {
-                    repeat(array2[index] - spare) {
-                        secondExchange.add(index)
-                    }
+            if (array2[index] < spare && array1[index] > spare) {
+                repeat(array1[index] - spare) {
+                    firstExchange.add(index)
+                }
+            } else if (array2[index] > spare && array1[index] < spare) {
+                repeat(array2[index] - spare) {
+                    secondExchange.add(index)
                 }
             }
         }
@@ -57,18 +52,25 @@ fun exchangeWithMapList(
         return listOf(secondExchange, firstExchange)
     }
 
-    fun toMapList(array: List<Int>): List<Int> {
-        val mapList = MutableList(array.sorted().max() + 1) { 0 }
-        array.forEach {
-            mapList[it] += 1
+    fun toFrequencyList(
+        array1: List<Int>,
+        array2: List<Int>
+    ): Pair<List<Int>, List<Int>> {
+        val size = max(array1.sorted().max(), array2.sorted().max())
+        val mapList1 = MutableList(size + 1) { 0 }
+        val mapList2 = MutableList(size + 1) { 0 }
+
+        array1.forEach {
+            mapList1[it] += 1
         }
-        return mapList
+
+        array2.forEach {
+            mapList2[it] += 1
+        }
+        return mapList1 to mapList2
     }
 
-    val jane = toMapList(janeStamps)
-    val alice = toMapList(aliceStamps)
+    val (jane, alice) = toFrequencyList(janeStamps, aliceStamps)
 
-    return if (jane.size > alice.size) compareAndExchange(jane, alice)
-    else compareAndExchange(alice, jane)
-
+    return compareAndExchange(jane, alice)
 }
