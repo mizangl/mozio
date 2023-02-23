@@ -93,6 +93,7 @@ fun exchangeWithBacktracking(
             secondExchange.add(index)
             alice[index] -= 1
             backtrack(index, alice[index], firstExchange, secondExchange)
+            secondExchange.removeLast()
 
         } else {
             backtrack(index + 1, 0, firstExchange, secondExchange)
