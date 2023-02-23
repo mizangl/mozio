@@ -68,29 +68,35 @@ fun exchangeWithBacktracking(
 
     fun backtrack(
         index: Int,
+        repeat: Int = 0,
         firstExchange: MutableList<Int> = mutableListOf<Int>(),
         secondExchange: MutableList<Int> = mutableListOf<Int>()
     ) {
 
-        if (index == alice.size) {
+        if (index == alice.size && repeat == 0) {
             result.add(secondExchange.toList())
             result.add(firstExchange.toList())
             return
         }
 
-        if (alice[index] < spare && jane[index] > spare) {
-            repeat(jane[index] - spare) {
-                firstExchange.add(index)
-            }
-        } else if (alice[index] > spare && jane[index] < spare) {
-            repeat(alice[index] - spare) {
-                secondExchange.add(index)
-            }
+        if (repeat < 0) {
+            return
         }
 
-        backtrack(index + 1, firstExchange, secondExchange)
-        if (firstExchange.isNotEmpty()) firstExchange.removeLast()
-        if (secondExchange.isNotEmpty()) secondExchange.removeLast()
+        if (alice[index] < spare && jane[index] > spare) {
+            firstExchange.add(index)
+            jane[index] -= 1
+            backtrack(index, jane[index], firstExchange, secondExchange)
+            firstExchange.removeLast()
+
+        } else if (alice[index] > spare && jane[index] < spare) {
+            secondExchange.add(index)
+            alice[index] -= 1
+            backtrack(index, alice[index], firstExchange, secondExchange)
+
+        } else {
+            backtrack(index + 1, 0, firstExchange, secondExchange)
+        }
     }
 
     backtrack(0)
@@ -100,7 +106,7 @@ fun exchangeWithBacktracking(
 private fun toFrequencyList(
     array1: List<Int>,
     array2: List<Int>
-): Pair<List<Int>, List<Int>> {
+): Pair<MutableList<Int>, MutableList<Int>> {
     val size = max(array1.sorted().max(), array2.sorted().max())
     val mapList1 = MutableList(size + 1) { 0 }
     val mapList2 = MutableList(size + 1) { 0 }
