@@ -1,3 +1,5 @@
+package com.mz.mozio.stamp
+
 import kotlin.math.max
 
 fun exchangeKotlinCollection(

@@ -1,0 +1,19 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+group = 'com.mz.mozio.stamp'
+version = '1.0-SNAPSHOT'
+
+dependencies {
+    testImplementation 'org.jetbrains.kotlin:kotlin-test:1.8.10'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+}
+
+kotlin {
+    jvmToolchain(11)
+}
+
+test {
+    useJUnitPlatform()
+}

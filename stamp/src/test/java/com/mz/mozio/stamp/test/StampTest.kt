@@ -1,3 +1,8 @@
+package com.mz.mozio.stamp.test
+
+import com.mz.mozio.stamp.exchangeKotlinCollection
+import com.mz.mozio.stamp.exchangeWithBacktracking
+import com.mz.mozio.stamp.exchangeWithMapList
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -6,7 +11,10 @@ class StampTest {
     @Test
     fun testKotlinCollectionCase1() {
         val expected = listOf(listOf(2, 3), listOf(1, 1, 7))
-        val exchange = exchangeKotlinCollection(listOf(1, 7, 3, 1, 7, 4, 5, 1, 7, 1), listOf(2, 3, 3, 2, 4, 3, 2))
+        val exchange = exchangeKotlinCollection(
+            listOf(1, 7, 3, 1, 7, 4, 5, 1, 7, 1),
+            listOf(2, 3, 3, 2, 4, 3, 2)
+        )
 
         Assertions.assertIterableEquals(
             expected,
@@ -39,7 +47,8 @@ class StampTest {
     @Test
     fun testExchangeArrayCase1() {
         val expected = listOf(listOf(2, 3), listOf(1, 1, 7))
-        val exchange = exchangeWithMapList(listOf(1, 7, 3, 1, 7, 4, 5, 1, 7, 1), listOf(2, 3, 3, 2, 4, 3, 2))
+        val exchange =
+            exchangeWithMapList(listOf(1, 7, 3, 1, 7, 4, 5, 1, 7, 1), listOf(2, 3, 3, 2, 4, 3, 2))
 
         Assertions.assertIterableEquals(
             expected,
@@ -72,7 +81,10 @@ class StampTest {
     @Test
     fun testExchangeBacktrackCase1() {
         val expected = listOf(listOf(2, 3), listOf(1, 1, 7))
-        val exchange = exchangeWithBacktracking(listOf(1, 7, 3, 1, 7, 4, 5, 1, 7, 1), listOf(2, 3, 3, 2, 4, 3, 2))
+        val exchange = exchangeWithBacktracking(
+            listOf(1, 7, 3, 1, 7, 4, 5, 1, 7, 1),
+            listOf(2, 3, 3, 2, 4, 3, 2)
+        )
 
         Assertions.assertIterableEquals(
             expected,
