@@ -19,3 +19,15 @@ Output order of stamps in each array is not relevant, however the first array is
   
 #  
 ### Mozio Test 2 of 2
+
+#### Pizza delivery
+
+A small pizza delivery company was looking for growth and wanted to develop their own pizza delivery app. They hired you to develop this app.
+
+In order to keep this small, we'll only work on a small portion of that app: the menu and flavor selection, plus a confirmation screen.
+
+Write an app that has the following features:
+
+- A menu of pizza flavors (read from the JSON above) where the user can select the flavors they want. A pizza can have one flavor (full pizza of the same flavor) or two flavors (half/half)
+- To keep the scope small, only one pizza can be chosen at a time. No need for a shopping cart
+- Flavors have their own prices. Total pizza price is calculated based on the price of each half  (i.e. if a flavor costs $10, a half of this flavor will cost $5 and a full pizza of this flavor $10)
