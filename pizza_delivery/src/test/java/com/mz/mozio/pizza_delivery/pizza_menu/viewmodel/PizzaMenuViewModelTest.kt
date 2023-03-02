@@ -65,6 +65,7 @@ class PizzaMenuViewModelTest {
 
     companion object {
         @AfterClass
+        @JvmStatic
         fun down() {
             unmockkAll()
         }

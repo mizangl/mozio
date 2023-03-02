@@ -80,6 +80,7 @@ class PizzaMenuRepositoryTest {
 
     companion object {
         @AfterClass
+        @JvmStatic
         fun down() {
             unmockkAll()
         }
