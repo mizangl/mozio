@@ -30,8 +30,8 @@
         <ImageView
             android:id="@+id/image"
             tools:src="@drawable/local_pizza_24"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/xxlarge"
+            android:layout_height="@dimen/xxlarge"
             app:accessibility="@{item.imageModel.contentDescription}"
             app:image="@{item.imageModel.image}"
             app:layout_constraintStart_toStartOf="parent"
