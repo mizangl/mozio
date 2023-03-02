@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Pizza Delivery</string>
+
+    <!--Error Layout-->
+    <string name="default_error_message">Something went wrong!</string>
+    <string name="default_error_retry">Try again</string>
+    <string name="default_error_accessibility">Something went wrong</string>
+
+    <!--Pizza Item Layout-->
+    <string name="default_pizza_currency">$ %1$s</string>
+    <string name="menu_pizza_order_now">Order Now</string>
+    <string name="default_pizza_accessibility">Something went wrong</string>
+
+
 </resources>
