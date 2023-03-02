@@ -17,8 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        app:pizzaSelected="@{item.selected}">
+        android:layout_marginHorizontal="8dp">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_image"
@@ -74,8 +73,8 @@
             android:focusable="@{viewModel.onPizzaSelected != null}"
             android:onClick="@{() -> viewModel.onPizzaSelected.invoke(item)}"
             android:text="@string/menu_pizza_complete"
-            android:textColor="?attr/colorSecondaryVariant"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:textColor="?attr/colorSecondaryVariant"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/guideline_text" />
 
@@ -83,14 +82,14 @@
             android:id="@+id/action_half"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:clickable="@{viewModel.onPizzaSelected != null}"
             android:focusable="@{viewModel.onPizzaSelected != null}"
             android:onClick="@{() -> viewModel.onHalfPizzaSelected.invoke(item)}"
             android:text="@string/menu_pizza_half"
-            android:textColor="?attr/colorPrimaryVariant"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:textColor="?attr/colorPrimaryVariant"
             app:layout_constraintEnd_toStartOf="@id/action_complete"
-            android:layout_marginHorizontal="16dp"
             app:layout_constraintTop_toTopOf="@id/guideline_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
