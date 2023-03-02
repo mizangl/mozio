@@ -32,9 +32,12 @@ class PizzaMenuViewModel @Inject constructor(
 
     val onHalfPizzaSelected: (PizzaModel) -> Unit = { pizza ->
         if (currentState?.halfPizzaList?.isNotEmpty() == true) {
-            currentState?.halfPizzaList?.let { list ->
-                val order = listOf(list.first(), pizza)
-                viewModelScope.launch { postEvent(OnSelectedTwoHalf(order)) }
+            currentState?.let { state ->
+                val order = state.halfPizzaList + pizza
+                viewModelScope.launch {
+                    postEvent(OnSelectedTwoHalf(order))
+                }
+                setState(PizzaMenuState.Ready(state.screenData))
             }
         } else {
             currentState?.screenData?.let { data ->
