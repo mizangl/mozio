@@ -8,11 +8,13 @@ import com.mz.mozio.pizza_delivery.data.entity.PizzaDTO
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import io.mockk.unmockkAll
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.AfterClass
 import org.junit.Assert
 import org.junit.Test
 import retrofit2.Response
@@ -74,5 +76,12 @@ class PizzaMenuRepositoryTest {
         Assert.assertTrue(result is ApiException)
         Assert.assertEquals(expectedException, (result as ApiException).throwable)
         Assert.assertEquals(errorMessage, result.throwable.message)
+    }
+
+    companion object {
+        @AfterClass
+        fun down() {
+            unmockkAll()
+        }
     }
 }

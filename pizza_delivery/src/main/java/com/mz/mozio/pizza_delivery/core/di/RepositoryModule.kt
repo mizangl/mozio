@@ -1,4 +1,4 @@
-package com.mz.mozio.pizza_delivery.di
+package com.mz.mozio.pizza_delivery.core.di
 
 import com.mz.mozio.pizza_delivery.data.repository.PizzaMenuRepository
 import com.mz.mozio.pizza_delivery.data.repository.PizzaMenuRepositoryImp

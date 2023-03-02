@@ -17,7 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.mz.mozio.pizza_delivery.config.HiltRunner"
     }
 
     buildTypes {
@@ -30,8 +30,19 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
+
+    packagingOptions {
+        exclude("META-INF/LICENSE.md")
+        exclude("META-INF/LICENSE-notice.md")
+        exclude("MANIFEST.MF")
     }
 }
 
@@ -46,9 +57,20 @@ dependencies {
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
+    // livecycle
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+
+    // fragment
+    implementation "androidx.fragment:fragment-ktx:1.5.5"
+
     // navigation
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
     implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
+
+    // testing fragments
+    debugImplementation "androidx.fragment:fragment-testing:1.5.5"
+    debugImplementation "androidx.test:monitor:1.6.1"
 
     // di
     implementation "com.google.dagger:hilt-android:2.44"
@@ -59,6 +81,8 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:4.10.0"
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
+    // logging
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 
     // coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
@@ -66,6 +90,8 @@ dependencies {
     // unit test
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
+
     // mockk
     testImplementation "io.mockk:mockk-android:1.13.4"
     testImplementation "io.mockk:mockk-agent:1.13.4"
@@ -73,7 +99,11 @@ dependencies {
     // ui test
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'com.adevinta.android:barista:4.2.0'
     androidTestImplementation "androidx.navigation:navigation-testing:2.5.3"
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.44'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.44'
+
     // mockk
     androidTestImplementation "io.mockk:mockk-android:1.13.4"
     androidTestImplementation "io.mockk:mockk-agent:1.13.4"
