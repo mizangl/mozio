@@ -32,7 +32,7 @@ jobs:
     - name: Unit test
       run: ./gradlew :pizza_delivery:testDebugUnitTest
     - name: Run connected tests
-      uses: ReactiveCircus/android-emulator-runner@v2
+    - uses: ReactiveCircus/android-emulator-runner@v2
       with:
         api-level: 30
         target: google_apis
