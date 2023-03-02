@@ -15,9 +15,9 @@ class PizzaMenuEventTest {
     @Test
     fun `Test OnSelectedPizza event`() {
         val model = PizzaModel("Pizza", 0.10)
-        val event = OnSelectedPizza(model)
+        val event = OnSelectedPizza(listOf(model))
 
         Assert.assertNotNull(event)
-        Assert.assertEquals(model, event.data)
+        Assert.assertEquals(model, event.data.first())
     }
 }

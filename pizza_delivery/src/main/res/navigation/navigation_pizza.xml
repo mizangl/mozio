@@ -16,13 +16,10 @@
         android:name="com.mz.mozio.pizza_delivery.confirmationSheet.view.ConfirmationSheetFragment"
         android:label="Pizza Confirmation"
         tools:layout="@layout/dialog_confirmation_sheet">
+
         <argument
-            android:name="pizza1"
-            app:argType="android.os.Parcelable"
-            app:nullable="true" />
-        <argument
-            android:name="pizza2"
-            app:argType="android.os.Parcelable"
+            android:name="orders"
+            app:argType="com.mz.mozio.pizza_delivery.pizza_menu.model.PizzaModel[]"
             app:nullable="true" />
     </dialog>
 

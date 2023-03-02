@@ -16,4 +16,3 @@ data class PizzaModel(
         contentDescription = R.string.default_pizza_accessibility
     )
 ): Parcelable
-

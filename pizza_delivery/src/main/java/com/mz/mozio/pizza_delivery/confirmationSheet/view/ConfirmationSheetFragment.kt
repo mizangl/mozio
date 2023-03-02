@@ -30,7 +30,10 @@ class ConfirmationSheetFragment : BottomSheetDialogFragment() {
 
     private val viewModel: ConfirmationViewModel by viewModels()
 
-    private val args: ConfirmationSheetFragmentArgs by navArgs()
+    private val orders: List<PizzaModel> by lazy {
+        val args: ConfirmationSheetFragmentArgs by navArgs()
+        args.orders?.toList() ?: emptyList()
+    }
 
 
     override fun onCreateView(
@@ -49,10 +52,7 @@ class ConfirmationSheetFragment : BottomSheetDialogFragment() {
         }
         handleEvents()
 
-        viewModel.setup(
-            args.pizza1 as? PizzaModel,
-            args.pizza2 as? PizzaModel
-        )
+        viewModel.setup(orders)
     }
 
     private fun navigateBack() {
@@ -74,6 +74,6 @@ class ConfirmationSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun navigateToConfirm() {
-       parentFragment?.findNavController()?.navigate(R.id.pizza_succeed)
+        parentFragment?.findNavController()?.navigate(R.id.pizza_succeed)
     }
 }

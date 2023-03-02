@@ -26,7 +26,7 @@ class PizzaMenuViewModel @Inject constructor(
                     setState(PizzaMenuState.Ready(data))
                 }
             }
-            postEvent(OnSelectedPizza(it))
+            postEvent(OnSelectedPizza(listOf(it)))
         }
     }
 

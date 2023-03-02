@@ -18,7 +18,6 @@ import com.mz.mozio.pizza_delivery.pizza_menu.model.PizzaModel
 import com.mz.mozio.pizza_delivery.pizza_menu.viewmodel.PizzaMenuViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class PizzaMenuFragment : Fragment() {
@@ -61,28 +60,19 @@ class PizzaMenuFragment : Fragment() {
                     }
 
                     is OnSelectedPizza -> {
-                        Timber.d("${event.data}")
                         navigateToConfirmation(event.data)
                     }
                     is OnSelectedTwoHalf -> {
-                        Timber.d("${event.data}")
-                        navigateToConfirmation(
-                            event.data.first(),
-                            event.data.last()
-                        )
+                        navigateToConfirmation(event.data)
                     }
                 }
             }
         }
     }
 
-    private fun navigateToConfirmation(
-        pizza1: PizzaModel,
-        pizza2: PizzaModel? = null
-    ) {
+    private fun navigateToConfirmation(order: List<PizzaModel>) {
         val args = ConfirmationSheetFragmentArgs(
-            pizza1 = pizza1,
-            pizza2 = pizza2
+            orders = order.toTypedArray()
         ).toBundle()
         findNavController().navigate(
             R.id.dialog_pizza_confirmation,

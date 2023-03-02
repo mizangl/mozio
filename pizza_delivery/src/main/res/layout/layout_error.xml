@@ -21,8 +21,8 @@
 
         <ImageView
             android:id="@+id/error_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="@dimen/xxxlarge"
+            android:layout_height="@dimen/xxxlarge"
             app:accessibility="@{errorData.imageModel.contentDescription}"
             app:image="@{errorData.imageModel.image}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +35,7 @@
             android:id="@+id/error_message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin_medium"
             android:gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="?attr/colorPrimaryVariant"
@@ -49,7 +49,7 @@
             android:id="@+id/error_retry"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin_medium"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
