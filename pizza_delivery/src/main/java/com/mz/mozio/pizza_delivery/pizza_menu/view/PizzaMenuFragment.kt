@@ -7,9 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.mz.mozio.pizza_delivery.R
+import com.mz.mozio.pizza_delivery.confirmationSheet.view.ConfirmationSheetFragmentArgs
 import com.mz.mozio.pizza_delivery.databinding.FragmentPizzaMenuBinding
 import com.mz.mozio.pizza_delivery.pizza_menu.OnLoadMenu
 import com.mz.mozio.pizza_delivery.pizza_menu.OnSelectedPizza
+import com.mz.mozio.pizza_delivery.pizza_menu.OnSelectedTwoHalf
+import com.mz.mozio.pizza_delivery.pizza_menu.model.PizzaModel
 import com.mz.mozio.pizza_delivery.pizza_menu.viewmodel.PizzaMenuViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -38,6 +43,13 @@ class PizzaMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         handleEvents()
         viewModel.loadPizzas()
+        handleNavigationListener()
+    }
+
+    private fun handleNavigationListener() {
+        parentFragmentManager.setFragmentResultListener(PIZZA_MENU_RESET, this) { _, _ ->
+            viewModel.clearSelection()
+        }
     }
 
     private fun handleEvents() {
@@ -50,10 +62,35 @@ class PizzaMenuFragment : Fragment() {
 
                     is OnSelectedPizza -> {
                         Timber.d("${event.data}")
-                        // TODO () navigate to bottom-sheet
+                        navigateToConfirmation(event.data)
+                    }
+                    is OnSelectedTwoHalf -> {
+                        Timber.d("${event.data}")
+                        navigateToConfirmation(
+                            event.data.first(),
+                            event.data.last()
+                        )
                     }
                 }
             }
         }
+    }
+
+    private fun navigateToConfirmation(
+        pizza1: PizzaModel,
+        pizza2: PizzaModel? = null
+    ) {
+        val args = ConfirmationSheetFragmentArgs(
+            pizza1 = pizza1,
+            pizza2 = pizza2
+        ).toBundle()
+        findNavController().navigate(
+            R.id.dialog_pizza_confirmation,
+            args
+        )
+    }
+
+    companion object {
+        const val PIZZA_MENU_RESET = "pizza_menu_reset"
     }
 }

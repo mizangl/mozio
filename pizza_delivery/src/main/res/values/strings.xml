@@ -8,8 +8,18 @@
 
     <!--Pizza Item Layout-->
     <string name="default_pizza_currency">$ %1$s</string>
-    <string name="menu_pizza_order_now">Order Now</string>
+    <string name="menu_pizza_complete">Order Complete</string>
+    <string name="menu_pizza_half">Just Half</string>
     <string name="default_pizza_accessibility">Something went wrong</string>
+
+    <!--Confirmation Sheet Layout-->
+    <string name="default_close_accessibility">Close</string>
+    <string name="dialog_confirm_your_order">Confirm your Order</string>
+    <string name="confirm_button">Confirm</string>
+    <string name="default_pizza_total">Total: $ %1$s</string>
+
+    <!--Order Succeed Sheet Layout-->
+    <string name="order_success_description">Congratulation!!! \nyour Order has been placed</string>
 
 
 </resources>
