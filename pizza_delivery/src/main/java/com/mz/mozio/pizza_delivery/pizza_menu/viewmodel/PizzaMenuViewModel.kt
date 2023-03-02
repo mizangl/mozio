@@ -5,6 +5,7 @@ import com.mz.mozio.pizza_delivery.core.viewmodel.PizzaViewModel
 import com.mz.mozio.pizza_delivery.data.api.Success
 import com.mz.mozio.pizza_delivery.data.repository.PizzaMenuRepository
 import com.mz.mozio.pizza_delivery.pizza_menu.OnSelectedPizza
+import com.mz.mozio.pizza_delivery.pizza_menu.OnSelectedTwoHalf
 import com.mz.mozio.pizza_delivery.pizza_menu.PizzaMenuEvent
 import com.mz.mozio.pizza_delivery.pizza_menu.PizzaMenuState
 import com.mz.mozio.pizza_delivery.pizza_menu.model.PizzaModel
@@ -20,7 +21,25 @@ class PizzaMenuViewModel @Inject constructor(
 
     val onPizzaSelected: (PizzaModel) -> Unit = {
         viewModelScope.launch {
+            if (currentState?.halfPizzaList?.isNotEmpty() == false) {
+                currentState?.screenData?.let { data ->
+                    setState(PizzaMenuState.Ready(data))
+                }
+            }
             postEvent(OnSelectedPizza(it))
+        }
+    }
+
+    val onHalfPizzaSelected: (PizzaModel) -> Unit = { pizza ->
+        if (currentState?.halfPizzaList?.isNotEmpty() == true) {
+            currentState?.halfPizzaList?.let { list ->
+                val order = listOf(list.first(), pizza)
+                viewModelScope.launch { postEvent(OnSelectedTwoHalf(order)) }
+            }
+        } else {
+            currentState?.screenData?.let { data ->
+                setState(PizzaMenuState.Ready(data, listOf(pizza)))
+            }
         }
     }
 
@@ -41,5 +60,11 @@ class PizzaMenuViewModel @Inject constructor(
 
     fun onTryAgain() {
         loadPizzas()
+    }
+
+    fun clearSelection() {
+        currentState?.screenData?.let { data ->
+            setState(PizzaMenuState.Ready(data))
+        }
     }
 }

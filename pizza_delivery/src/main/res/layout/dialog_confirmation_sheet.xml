@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.mz.mozio.pizza_delivery.confirmationSheet.viewmodel.ConfirmationViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/default_error_accessibility"
+            android:src="@drawable/baseline_close_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="32dp" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/dialog_confirm_your_order"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline" />
+
+        <include
+            android:id="@+id/item1"
+            layout="@layout/layout_confirmation_pizza_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isVisible="@{viewModel.state.firstPizza != null}"
+            app:item="@{viewModel.state.firstPizza}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <include
+            android:id="@+id/item2"
+            layout="@layout/layout_confirmation_pizza_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isVisible="@{viewModel.state.secondPizza != null}"
+            app:item="@{viewModel.state.secondPizza}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item1" />
+
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="end"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:formatCurrency="@{viewModel.state.formatCurrency}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item2"
+            app:textPrice="@{viewModel.state.total}"
+            tools:text="Total: $ 20.00" />
+
+        <Button
+            android:id="@+id/confirm_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:clickable="@{viewModel.confirmAction != null}"
+            android:focusable="@{viewModel.confirmAction != null}"
+            android:onClick="@{() -> viewModel.confirmAction.invoke()}"
+            android:text="@string/confirm_button"
+            app:layout_constraintTop_toBottomOf="@id/total" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

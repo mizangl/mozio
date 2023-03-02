@@ -4,7 +4,11 @@ import com.mz.mozio.pizza_delivery.pizza_menu.model.MenuErrorData
 import com.mz.mozio.pizza_delivery.pizza_menu.model.PizzaModel
 
 sealed class PizzaMenuState {
-    data class Ready(val data: List<PizzaModel>) : PizzaMenuState()
+    data class Ready(
+        val data: List<PizzaModel>,
+        val pizzas: List<PizzaModel> = emptyList()
+    ) : PizzaMenuState()
+
     object Loading : PizzaMenuState()
     object Error : PizzaMenuState()
 
@@ -22,5 +26,8 @@ sealed class PizzaMenuState {
 
     val errorMessage: MenuErrorData?
         get() = if (isError) MenuErrorData() else null
+
+    val halfPizzaList: List<PizzaModel>
+        get() = (this as? Ready)?.pizzas ?: emptyList()
 
 }
