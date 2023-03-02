@@ -19,11 +19,7 @@ class ConfirmationViewModel @Inject constructor() :
         }
     }
 
-    fun setup(pizza1: PizzaModel?, pizza2: PizzaModel?) {
-        if (pizza1 != null && pizza2 != null) {
-            setState(ConfirmationState.ReadyTwoHalf(pizza1, pizza2))
-        } else if (pizza1 != null) {
-            setState(ConfirmationState.Ready(pizza1))
-        }
+    fun setup(order: List<PizzaModel>) {
+        setState(ConfirmationState.Ready(order))
     }
 }

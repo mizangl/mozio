@@ -17,7 +17,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp">
+        android:layout_marginHorizontal="8dp"
+        app:pizzaSelected="@{item.selected}">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_image"
