@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pizza_graph"
+    app:startDestination="@id/pizza_menu">
+
+    <fragment
+        android:id="@+id/pizza_menu"
+        android:name="com.mz.mozio.pizza_delivery.pizza_menu.view.PizzaMenuFragment"
+        android:label="Pizza Menu"
+        tools:layout="@layout/fragment_pizza_menu" />
+
+    <dialog
+        android:id="@+id/dialog_pizza_confirmation"
+        android:name="com.mz.mozio.pizza_delivery.confirmationSheet.view.ConfirmationSheetFragment"
+        android:label="Pizza Confirmation"
+        tools:layout="@layout/dialog_confirmation_sheet">
+        <argument
+            android:name="pizza1"
+            app:argType="android.os.Parcelable"
+            app:nullable="true" />
+        <argument
+            android:name="pizza2"
+            app:argType="android.os.Parcelable"
+            app:nullable="true" />
+    </dialog>
+
+    <fragment
+        android:id="@+id/pizza_succeed"
+        android:name="com.mz.mozio.pizza_delivery.success.view.OrderSuccessFragment"
+        android:label="Pizza Succeed"
+        tools:layout="@layout/fragment_order_success" />
+
+</navigation>
