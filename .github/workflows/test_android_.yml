@@ -2,7 +2,7 @@ name: Android CI - Feature - Mozio Test 2
 
 on:
   push:
-
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
