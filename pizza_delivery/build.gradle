@@ -45,6 +45,14 @@ android {
         exclude("META-INF/LICENSE-notice.md")
         exclude("MANIFEST.MF")
     }
+
+    testOptions {
+        animationsDisabled = true
+        testOptions {
+            reportDir "$rootDir/test-reports"
+            resultsDir "$rootDir/test-results"
+        }
+    }
 }
 
 kapt {
@@ -100,7 +108,7 @@ dependencies {
     // ui test
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation 'com.adevinta.android:barista:4.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
     androidTestImplementation "androidx.navigation:navigation-testing:2.5.3"
     androidTestImplementation 'com.google.dagger:hilt-android-testing:2.44'
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.44'
