@@ -7,13 +7,16 @@ import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
-import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
 import com.mz.mozio.pizza_delivery.R
 import com.mz.mozio.pizza_delivery.confirmationSheet.view.ConfirmationSheetFragment
 import com.mz.mozio.pizza_delivery.confirmationSheet.view.ConfirmationSheetFragmentArgs
 import com.mz.mozio.pizza_delivery.core.Utils.decimalFormat
 import com.mz.mozio.pizza_delivery.pizza_menu.model.PizzaModel
+import com.mz.mozio.pizza_delivery.utils.isDisplayedInParent
 import com.mz.mozio.pizza_delivery.utils.launchFragmentInHiltContainer
+import com.mz.mozio.pizza_delivery.utils.viewInParentWith
+import com.mz.mozio.pizza_delivery.utils.viewIsDisplayed
+import com.mz.mozio.pizza_delivery.utils.viewIsNotDisplayed
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -43,12 +46,12 @@ class ConfirmationSheetFragmentTest {
     fun launchConfirmationSheet() {
         launch(emptyList())
 
-        assertDisplayed(R.id.close)
-        assertDisplayed(R.id.title)
-        assertNotDisplayed(R.id.item1)
-        assertNotDisplayed(R.id.item2)
-        assertDisplayed(R.id.total)
-        assertDisplayed(R.id.confirm_button)
+        R.id.close.viewIsDisplayed()
+        R.id.title.viewIsDisplayed()
+        R.id.item1.viewIsNotDisplayed()
+        R.id.item2.viewIsNotDisplayed()
+        R.id.total.viewIsDisplayed()
+        R.id.confirm_button.viewIsDisplayed()
     }
 
     @Test
@@ -56,29 +59,39 @@ class ConfirmationSheetFragmentTest {
         val pizza = PizzaModel("Mozzarella", 10.0)
         launch(listOf(pizza))
 
-        assertDisplayed(R.id.close)
-        assertDisplayed(R.id.title)
-        assertDisplayed(R.id.item1)
-        assertNotDisplayed(R.id.item2)
-        assertDisplayed(R.id.total)
-        assertDisplayed(R.id.confirm_button)
+        R.id.close.viewIsDisplayed()
+        R.id.title.viewIsDisplayed()
+        R.id.item1.viewIsDisplayed()
+        R.id.item2.viewIsNotDisplayed()
+        R.id.total.viewIsDisplayed()
+        R.id.confirm_button.viewIsDisplayed()
 
-        assertDisplayed(R.id.image)
-        assertDisplayed(R.id.name, pizza.name)
-        assertDisplayed(R.id.price, "$ ${decimalFormat.format(pizza.price)}")
+        R.id.image.isDisplayedInParent(R.id.item1)
+        R.id.name.viewInParentWith(R.id.item1, pizza.name)
+        R.id.price.viewInParentWith(R.id.item1, "$ ${decimalFormat.format(pizza.price)}")
     }
 
     @Test
     fun launchConfirmationSheetTwoItem() {
-        val pizza = PizzaModel("Mozzarella", 10.0)
-        launch(listOf(pizza, pizza))
+        val pizzaMozzarella = PizzaModel("Mozzarella", 10.0)
+        val pizzaPepperoni = PizzaModel("Pepperoni", 12.0)
 
-        assertDisplayed(R.id.close)
-        assertDisplayed(R.id.title)
-        assertDisplayed(R.id.item1)
-        assertDisplayed(R.id.item2)
-        assertDisplayed(R.id.total)
-        assertDisplayed(R.id.confirm_button)
+        launch(listOf(pizzaMozzarella, pizzaPepperoni))
+
+        R.id.close.viewIsDisplayed()
+        R.id.title.viewIsDisplayed()
+        R.id.item1.viewIsDisplayed()
+        R.id.item2.viewIsDisplayed()
+        R.id.total.viewIsDisplayed()
+        R.id.confirm_button.viewIsDisplayed()
+
+        R.id.image.isDisplayedInParent(R.id.item1)
+        R.id.name.viewInParentWith(R.id.item1, pizzaMozzarella.name)
+        R.id.price.viewInParentWith(R.id.item1, "$ ${decimalFormat.format(pizzaMozzarella.price)}")
+
+        R.id.image.isDisplayedInParent(R.id.item2)
+        R.id.name.viewInParentWith(R.id.item2, pizzaPepperoni.name)
+        R.id.price.viewInParentWith(R.id.item2, "$ ${decimalFormat.format(pizzaPepperoni.price)}")
     }
 
     private fun launch(orders: List<PizzaModel>) {
