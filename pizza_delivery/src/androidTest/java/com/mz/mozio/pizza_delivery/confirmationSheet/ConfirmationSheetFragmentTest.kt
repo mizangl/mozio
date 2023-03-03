@@ -6,7 +6,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
-import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.mz.mozio.pizza_delivery.R
 import com.mz.mozio.pizza_delivery.confirmationSheet.view.ConfirmationSheetFragment
 import com.mz.mozio.pizza_delivery.confirmationSheet.view.ConfirmationSheetFragmentArgs

@@ -6,10 +6,11 @@ import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
-import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.mz.mozio.pizza_delivery.R
 import com.mz.mozio.pizza_delivery.success.view.OrderSuccessFragment
 import com.mz.mozio.pizza_delivery.utils.launchFragmentInHiltContainer
+import com.mz.mozio.pizza_delivery.utils.viewIsDisplayed
+import com.mz.mozio.pizza_delivery.utils.viewWith
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -39,8 +40,8 @@ class OrderSuccessFragmentTest {
     fun testLaunchFragment_Error() {
         launch()
 
-        assertDisplayed(R.id.close)
-        assertDisplayed(R.id.message, R.string.order_success_description)
+        R.id.close.viewIsDisplayed()
+        R.id.message.viewWith(context.getString(R.string.order_success_description))
     }
 
     private fun launch() {

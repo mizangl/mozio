@@ -30,3 +30,8 @@ bin/
 .classpath
 
 .DS_Store
+
+test-reports/*
+test-reports/
+test-results/*
+test-results/
