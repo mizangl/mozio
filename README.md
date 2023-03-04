@@ -34,6 +34,12 @@ Write an app that has the following features:
 
 ## Result
 
-PizzaDelivery has separeted features on each package. It follows a simple version of MVI pattern, ViewModel acts as Reducers. It was considered use Use Case model, but I rejected it, since the scope is too small. Other thing I discarted was using Flow<T> as a communication interface between 'layers', I would consider it for features development,right now, it wasn't needed to apply their operator, and to keep the thing more simple just used the ApiResult.
+PizzaDelivery follows a simple version of MVI pattern, ViewModel acts as Reducers.
 
-I tried to keep the list of dependencies low, save for `Barista`, I was running out of time to write custom espresso matchers and assertions, I would preferer to do it to have more control on flaky test.
+<img src=https://user-images.githubusercontent.com/63661111/222925286-90fb789e-6436-4129-83d3-0635801a9681.png width=600/>
+
+### Setup
+1. Clone the repository https://github.com/mizangl/mozio.git
+2. Open with Android Studio.
+3. Build `./gradlew :pizza_delivery:build`
+4. Check test with `./gradlew :pizza_delivery:testDebugUnitTest` and `./gradlew :pizza_delivery:connectedDebugAndroidTest`
