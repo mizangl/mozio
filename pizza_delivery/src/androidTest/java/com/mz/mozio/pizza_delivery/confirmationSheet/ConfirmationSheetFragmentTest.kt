@@ -10,6 +10,7 @@ import com.mz.mozio.pizza_delivery.R
 import com.mz.mozio.pizza_delivery.confirmationSheet.view.ConfirmationSheetFragment
 import com.mz.mozio.pizza_delivery.confirmationSheet.view.ConfirmationSheetFragmentArgs
 import com.mz.mozio.pizza_delivery.core.Utils.decimalFormat
+import com.mz.mozio.pizza_delivery.pizza_menu.model.OrderModel
 import com.mz.mozio.pizza_delivery.pizza_menu.model.PizzaModel
 import com.mz.mozio.pizza_delivery.utils.isDisplayedInParent
 import com.mz.mozio.pizza_delivery.utils.launchFragmentInHiltContainer
@@ -43,7 +44,7 @@ class ConfirmationSheetFragmentTest {
 
     @Test
     fun launchConfirmationSheet() {
-        launch(emptyList())
+        launch()
 
         R.id.close.viewIsDisplayed()
         R.id.title.viewIsDisplayed()
@@ -56,7 +57,7 @@ class ConfirmationSheetFragmentTest {
     @Test
     fun launchConfirmationSheetOneItem() {
         val pizza = PizzaModel("Mozzarella", 10.0)
-        launch(listOf(pizza))
+        launch(OrderModel(listOf(pizza)))
 
         R.id.close.viewIsDisplayed()
         R.id.title.viewIsDisplayed()
@@ -75,7 +76,7 @@ class ConfirmationSheetFragmentTest {
         val pizzaMozzarella = PizzaModel("Mozzarella", 10.0)
         val pizzaPepperoni = PizzaModel("Pepperoni", 12.0)
 
-        launch(listOf(pizzaMozzarella, pizzaPepperoni))
+        launch(OrderModel(listOf(pizzaMozzarella, pizzaPepperoni)))
 
         R.id.close.viewIsDisplayed()
         R.id.title.viewIsDisplayed()
@@ -93,8 +94,8 @@ class ConfirmationSheetFragmentTest {
         R.id.price.viewInParentWith(R.id.item2, "$ ${decimalFormat.format(pizzaPepperoni.price)}")
     }
 
-    private fun launch(orders: List<PizzaModel>) {
-        val args = ConfirmationSheetFragmentArgs(orders = orders.toTypedArray()).toBundle()
+    private fun launch(order: OrderModel = OrderModel()) {
+        val args = ConfirmationSheetFragmentArgs(order = order).toBundle()
         launchFragmentInHiltContainer<ConfirmationSheetFragment>(
             fragmentArgs = args,
         ) {

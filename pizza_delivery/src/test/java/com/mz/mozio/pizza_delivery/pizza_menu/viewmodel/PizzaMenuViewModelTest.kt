@@ -5,6 +5,7 @@ import com.mz.mozio.pizza_delivery.data.api.ApiError
 import com.mz.mozio.pizza_delivery.data.api.Success
 import com.mz.mozio.pizza_delivery.data.repository.PizzaMenuRepository
 import com.mz.mozio.pizza_delivery.pizza_menu.PizzaMenuState
+import com.mz.mozio.pizza_delivery.pizza_menu.navigation.OrderCoordinator
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -14,7 +15,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import org.junit.*
+import org.junit.After
+import org.junit.AfterClass
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class PizzaMenuViewModelTest {
@@ -22,14 +28,18 @@ class PizzaMenuViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val repository: PizzaMenuRepository = mockk(relaxed = true)
+    private val mockRepository: PizzaMenuRepository = mockk(relaxed = true)
+    private val mockOrderCoordinator: OrderCoordinator = mockk(relaxed = true)
     private lateinit var viewModel: PizzaMenuViewModel
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        viewModel = PizzaMenuViewModel(repository)
+        viewModel = PizzaMenuViewModel(
+            mockRepository,
+            mockOrderCoordinator
+        )
     }
 
     @After
@@ -39,12 +49,12 @@ class PizzaMenuViewModelTest {
 
     @Test
     fun `test Succeed`() {
-        coEvery { repository.getPizzaMenu() } returns Success(listOf(mockk(relaxed = true)))
+        coEvery { mockRepository.getPizzaMenu() } returns Success(listOf(mockk(relaxed = true)))
 
         viewModel.loadPizzas()
 
         val state = viewModel.currentState
-        coVerify { repository.getPizzaMenu() }
+        coVerify { mockRepository.getPizzaMenu() }
 
         Assert.assertNotNull(state)
         Assert.assertTrue(state is PizzaMenuState.Ready)
@@ -52,12 +62,12 @@ class PizzaMenuViewModelTest {
 
     @Test
     fun `test Error`() {
-        coEvery { repository.getPizzaMenu() } returns ApiError(404, "Error")
+        coEvery { mockRepository.getPizzaMenu() } returns ApiError(404, "Error")
 
         viewModel.loadPizzas()
 
         val state = viewModel.currentState
-        coVerify { repository.getPizzaMenu() }
+        coVerify { mockRepository.getPizzaMenu() }
 
         Assert.assertNotNull(state)
         Assert.assertTrue(state is PizzaMenuState.Error)
