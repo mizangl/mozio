@@ -7,17 +7,18 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.mz.mozio.pizza_delivery.R
 import com.mz.mozio.pizza_delivery.confirmationSheet.ConfirmationEvent
 import com.mz.mozio.pizza_delivery.confirmationSheet.viewmodel.ConfirmationViewModel
 import com.mz.mozio.pizza_delivery.databinding.DialogConfirmationSheetBinding
-import com.mz.mozio.pizza_delivery.pizza_menu.model.PizzaModel
+import com.mz.mozio.pizza_delivery.pizza_menu.model.OrderModel
 import com.mz.mozio.pizza_delivery.pizza_menu.view.PizzaMenuFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -30,9 +31,9 @@ class ConfirmationSheetFragment : BottomSheetDialogFragment() {
 
     private val viewModel: ConfirmationViewModel by viewModels()
 
-    private val orders: List<PizzaModel> by lazy {
+    private val orders: OrderModel by lazy {
         val args: ConfirmationSheetFragmentArgs by navArgs()
-        args.orders?.toList() ?: emptyList()
+        args.order ?: OrderModel()
     }
 
 
@@ -48,32 +49,28 @@ class ConfirmationSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.close.setOnClickListener {
-            navigateBack()
+            viewModel.navigateBack()
+            clearBack()
         }
         handleEvents()
-
         viewModel.setup(orders)
     }
 
-    private fun navigateBack() {
-        setFragmentResult(PizzaMenuFragment.PIZZA_MENU_RESET, bundleOf())
-        findNavController().popBackStack()
-    }
-
     private fun handleEvents() {
+
         lifecycleScope.launch {
-            viewModel.events.collect { event ->
+            viewModel.events.onEach { event ->
                 when (event) {
-                    is ConfirmationEvent.OnConfirmClicked -> {
-                        navigateBack()
-                        navigateToConfirm()
-                    }
+                    is ConfirmationEvent.OnConfirmClicked -> clearBack()
                 }
-            }
+            }.flowWithLifecycle(viewLifecycleOwner.lifecycle).collect()
         }
     }
 
-    private fun navigateToConfirm() {
-        parentFragment?.findNavController()?.navigate(R.id.pizza_succeed)
+    private fun clearBack() {
+        setFragmentResult(
+            PizzaMenuFragment.PIZZA_MENU_RESET,
+            bundleOf()
+        )
     }
 }

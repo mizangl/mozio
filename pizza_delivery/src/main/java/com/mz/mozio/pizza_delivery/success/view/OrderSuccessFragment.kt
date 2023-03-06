@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.mz.mozio.pizza_delivery.R
+import androidx.fragment.app.viewModels
 import com.mz.mozio.pizza_delivery.databinding.FragmentOrderSuccessBinding
+import com.mz.mozio.pizza_delivery.success.viewmodel.OrderSuccessViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,6 +16,8 @@ class OrderSuccessFragment : Fragment() {
     private val binding: FragmentOrderSuccessBinding by lazy {
         FragmentOrderSuccessBinding.inflate(layoutInflater)
     }
+
+    private val viewModel: OrderSuccessViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +30,7 @@ class OrderSuccessFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.close.setOnClickListener {
-            findNavController().popBackStack()
+            viewModel.navigateBack()
         }
     }
 }

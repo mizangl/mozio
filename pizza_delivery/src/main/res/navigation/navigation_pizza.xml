@@ -18,8 +18,8 @@
         tools:layout="@layout/dialog_confirmation_sheet">
 
         <argument
-            android:name="orders"
-            app:argType="com.mz.mozio.pizza_delivery.pizza_menu.model.PizzaModel[]"
+            android:name="order"
+            app:argType="com.mz.mozio.pizza_delivery.pizza_menu.model.OrderModel"
             app:nullable="true" />
     </dialog>
 
