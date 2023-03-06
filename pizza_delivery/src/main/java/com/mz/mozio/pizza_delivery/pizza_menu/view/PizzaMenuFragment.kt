@@ -6,23 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
-import com.mz.mozio.pizza_delivery.R
-import com.mz.mozio.pizza_delivery.confirmationSheet.view.ConfirmationSheetFragmentArgs
 import com.mz.mozio.pizza_delivery.databinding.FragmentPizzaMenuBinding
-import com.mz.mozio.pizza_delivery.pizza_menu.OnLoadMenu
-import com.mz.mozio.pizza_delivery.pizza_menu.OnSelectedPizza
-import com.mz.mozio.pizza_delivery.pizza_menu.OnSelectedTwoHalf
-import com.mz.mozio.pizza_delivery.pizza_menu.model.PizzaModel
 import com.mz.mozio.pizza_delivery.pizza_menu.viewmodel.PizzaMenuViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PizzaMenuFragment : Fragment() {
@@ -44,44 +30,13 @@ class PizzaMenuFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        handleEvents()
         handleNavigationListener()
-        viewModel.loadPizzas()
     }
 
     private fun handleNavigationListener() {
         parentFragmentManager.setFragmentResultListener(PIZZA_MENU_RESET, this) { _, _ ->
             viewModel.clearSelection()
         }
-    }
-
-    private fun handleEvents() {
-        lifecycleScope.launch {
-            viewModel.events.onEach { event ->
-                when (event) {
-                    is OnLoadMenu -> {
-                        viewModel.loadPizzas()
-                    }
-
-                    is OnSelectedPizza -> {
-                        navigateToConfirmation(event.data)
-                    }
-                    is OnSelectedTwoHalf -> {
-                        navigateToConfirmation(event.data)
-                    }
-                }
-            }.flowWithLifecycle(viewLifecycleOwner.lifecycle).collect()
-        }
-    }
-
-    private fun navigateToConfirmation(order: List<PizzaModel>) {
-        val args = ConfirmationSheetFragmentArgs(
-            orders = order.toTypedArray()
-        ).toBundle()
-        findNavController().navigate(
-            R.id.dialog_pizza_confirmation,
-            args
-        )
     }
 
     companion object {

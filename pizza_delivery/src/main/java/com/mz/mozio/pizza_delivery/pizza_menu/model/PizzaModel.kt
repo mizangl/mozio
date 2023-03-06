@@ -15,4 +15,8 @@ data class PizzaModel(
         image = R.drawable.local_pizza_24,
         contentDescription = R.string.default_pizza_accessibility
     )
-): Parcelable
+) : Parcelable {
+
+    val halfPrice: Double
+        get() = price / 2
+}

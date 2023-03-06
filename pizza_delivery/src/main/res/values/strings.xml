@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Pizza Delivery</string>
 
+    <!--Main Layout-->
+    <string name="half_pizza_selected_content">Half Pizza Selected</string>
+    <string name="show_checkout">Show Checkout</string>
+
     <!--Error Layout-->
     <string name="default_error_message">Something went wrong!</string>
     <string name="default_error_retry">Try again</string>

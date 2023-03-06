@@ -3,6 +3,8 @@ package com.mz.mozio.pizza_delivery.confirmationSheet.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mz.mozio.pizza_delivery.confirmationSheet.ConfirmationEvent
 import com.mz.mozio.pizza_delivery.confirmationSheet.ConfirmationState
+import com.mz.mozio.pizza_delivery.pizza_menu.model.OrderModel
+import com.mz.mozio.pizza_delivery.pizza_menu.navigation.OrderCoordinator
 import io.mockk.mockk
 import io.mockk.unmockkAll
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +29,9 @@ class ConfirmationViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    private val confirmationViewModel = ConfirmationViewModel()
+    private val mockCoordinator: OrderCoordinator = mockk(relaxed = true)
+
+    private val confirmationViewModel = ConfirmationViewModel(mockCoordinator)
 
     @Before
     fun setup() {
@@ -41,7 +45,7 @@ class ConfirmationViewModelTest {
 
     @Test
     fun `test Ready state`() {
-        confirmationViewModel.setup(listOf(mockk(relaxed = true)))
+        confirmationViewModel.setup(OrderModel(mockk(relaxed = true)))
         val state = confirmationViewModel.currentState
 
         Assert.assertNotNull(state)

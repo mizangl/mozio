@@ -9,12 +9,14 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DataModule {
 
     @Provides
+    @Singleton
     fun providePizzaService(
         okHttpClient: OkHttpClient
     ): PizzaService =
@@ -27,6 +29,7 @@ object DataModule {
 
 
     @Provides
+    @Singleton
     fun provideOkHttp(): OkHttpClient =
         OkHttpClient.Builder()
             .callTimeout(CALL_TIMEOUT, TimeUnit.SECONDS)

@@ -17,20 +17,80 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            android:animateLayoutChanges="true"
             app:isVisible="@{viewModel.state.isReady}">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/pizza_menu"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/checkout_option"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:menu="@{viewModel.state.screenData}"
                 app:viewModel="@{viewModel}"
-                tools:listitem="@layout/layout_item_pizza"/>
+                tools:listitem="@layout/layout_item_pizza" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/checkout_option"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/margin_medium"
+                android:elevation="10dp"
+                app:isVisible="@{viewModel.state.hasHalfSelected}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/half_pizza_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:text="@string/half_pizza_selected_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/pizza_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:gravity="end"
+                    android:text="@{viewModel.state.selectedHalfTitle}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/half_pizza_title" />
+
+                <TextView
+                    android:id="@+id/pizza_price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:gravity="end"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:formatCurrency="@{viewModel.state.currency}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pizza_title"
+                    app:textPrice="@{viewModel.state.selectedHalfPrice}" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:onClick="@{() -> viewModel.forceCheckout.invoke()}"
+                    android:text="@string/show_checkout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pizza_price" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
