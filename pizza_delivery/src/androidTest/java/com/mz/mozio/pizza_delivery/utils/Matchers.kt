@@ -7,7 +7,6 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
@@ -88,9 +87,9 @@ internal fun @receiver:IdRes Int.viewInParentWith(
     @IdRes id: Int, text: String
 ): ViewInteraction = matchView(allOf(this.withId(), withParent(id.withId()))).check(withText(text))
 
-internal fun <T : RecyclerView.ViewHolder> Int.performActionOnRecyclerViewItemAt(
-    index: Int, action: ViewAction
-) = matchView().performActionOnRecyclerViewItemAt<T>(index, action)
+internal fun <T : RecyclerView.ViewHolder> @receiver:IdRes Int.performClickOnRecyclerViewItemAt(
+    index: Int
+) = matchView().performActionOnRecyclerViewItemAt<T>(index, ViewActions.click())
 
 internal fun @receiver:IdRes Int.asRecyclerView() = RecyclerViewMatcher.recyclerViewWithId(this)
 
@@ -102,6 +101,9 @@ internal fun @receiver:IdRes Int.isDisplayedOn(parent: Int, index: Int) =
 
 internal fun @receiver:IdRes Int.hasTextOn(parent: Int, index: Int, text: String) =
     this.onRecyclerView(parent, index).check(withText(text))
+
+internal fun @receiver:IdRes Int.click(parent: Int, index: Int) =
+    this.onRecyclerView(parent, index).perform(ViewActions.click())
 
 fun <T : RecyclerView.ViewHolder> ViewInteraction.performActionOnRecyclerViewItemAt(
     index: Int, action: ViewAction

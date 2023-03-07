@@ -80,6 +80,7 @@
                     app:textPrice="@{viewModel.state.selectedHalfPrice}" />
 
                 <Button
+                    android:id="@+id/show_checkout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_medium"

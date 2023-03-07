@@ -1,41 +1,41 @@
 package com.mz.mozio.pizza_delivery.confirmationSheet
 
-import android.content.Context
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
-import androidx.navigation.testing.TestNavHostController
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import com.mz.mozio.pizza_delivery.R
 import com.mz.mozio.pizza_delivery.confirmationSheet.view.ConfirmationSheetFragment
 import com.mz.mozio.pizza_delivery.confirmationSheet.view.ConfirmationSheetFragmentArgs
 import com.mz.mozio.pizza_delivery.core.Utils.decimalFormat
+import com.mz.mozio.pizza_delivery.core.navigation.Coordinator
 import com.mz.mozio.pizza_delivery.pizza_menu.model.OrderModel
 import com.mz.mozio.pizza_delivery.pizza_menu.model.PizzaModel
+import com.mz.mozio.pizza_delivery.pizza_menu.navigation.OnConfirmClicked
+import com.mz.mozio.pizza_delivery.pizza_menu.navigation.OrderEvent
+import com.mz.mozio.pizza_delivery.pizza_menu.navigation.PizzaMenuModule
+import com.mz.mozio.pizza_delivery.utils.clickOn
 import com.mz.mozio.pizza_delivery.utils.isDisplayedInParent
 import com.mz.mozio.pizza_delivery.utils.launchFragmentInHiltContainer
 import com.mz.mozio.pizza_delivery.utils.viewInParentWith
 import com.mz.mozio.pizza_delivery.utils.viewIsDisplayed
 import com.mz.mozio.pizza_delivery.utils.viewIsNotDisplayed
+import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mockito.mock
+import org.mockito.kotlin.verify
 
 @HiltAndroidTest
+@UninstallModules(PizzaMenuModule::class)
 class ConfirmationSheetFragmentTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
-    private val context: Context = ApplicationProvider.getApplicationContext()
-    private val testNavController = TestNavHostController(context).apply {
-        UiThreadStatement.runOnUiThread {
-            setGraph(R.navigation.navigation_pizza)
-            setCurrentDestination(R.id.dialog_pizza_confirmation)
-        }
-    }
+    @BindValue
+    @JvmField
+    val coordinator: Coordinator<OrderEvent> = mock()
 
     @Before
     fun setup() {
@@ -94,16 +94,22 @@ class ConfirmationSheetFragmentTest {
         R.id.price.viewInParentWith(R.id.item2, "$ ${decimalFormat.format(pizzaPepperoni.price)}")
     }
 
+    @Test
+    fun launchConfirmationSheetNavigateToOrderSuccess() {
+        val pizzaMozzarella = PizzaModel("Mozzarella", 10.0)
+        val pizzaPepperoni = PizzaModel("Pepperoni", 12.0)
+
+        launch(OrderModel(listOf(pizzaMozzarella, pizzaPepperoni)))
+
+        R.id.confirm_button.clickOn()
+
+        verify(coordinator).onEvent(OnConfirmClicked)
+    }
+
     private fun launch(order: OrderModel = OrderModel()) {
         val args = ConfirmationSheetFragmentArgs(order = order).toBundle()
         launchFragmentInHiltContainer<ConfirmationSheetFragment>(
             fragmentArgs = args,
-        ) {
-            lifecycleScope.launchWhenStarted {
-                if (view != null) {
-                    Navigation.setViewNavController(view!!, testNavController)
-                }
-            }
-        }
+        )
     }
 }

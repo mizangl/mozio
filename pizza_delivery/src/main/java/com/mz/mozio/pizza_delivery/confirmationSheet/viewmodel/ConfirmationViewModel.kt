@@ -3,18 +3,19 @@ package com.mz.mozio.pizza_delivery.confirmationSheet.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.mz.mozio.pizza_delivery.confirmationSheet.ConfirmationEvent
 import com.mz.mozio.pizza_delivery.confirmationSheet.ConfirmationState
+import com.mz.mozio.pizza_delivery.core.navigation.Coordinator
 import com.mz.mozio.pizza_delivery.core.viewmodel.PizzaViewModel
 import com.mz.mozio.pizza_delivery.pizza_menu.model.OrderModel
 import com.mz.mozio.pizza_delivery.pizza_menu.navigation.OnBackClicked
 import com.mz.mozio.pizza_delivery.pizza_menu.navigation.OnConfirmClicked
-import com.mz.mozio.pizza_delivery.pizza_menu.navigation.OrderCoordinator
+import com.mz.mozio.pizza_delivery.pizza_menu.navigation.OrderEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ConfirmationViewModel @Inject constructor(
-    private val coordinator: OrderCoordinator
+    private val coordinator: Coordinator<OrderEvent>,
 ) :
     PizzaViewModel<ConfirmationEvent, ConfirmationState>() {
 

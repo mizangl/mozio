@@ -1,32 +1,33 @@
 package com.mz.mozio.pizza_delivery.success
 
 import android.content.Context
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
-import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import com.mz.mozio.pizza_delivery.R
+import com.mz.mozio.pizza_delivery.core.navigation.Coordinator
+import com.mz.mozio.pizza_delivery.pizza_menu.navigation.OrderEvent
+import com.mz.mozio.pizza_delivery.pizza_menu.navigation.PizzaMenuModule
 import com.mz.mozio.pizza_delivery.success.view.OrderSuccessFragment
 import com.mz.mozio.pizza_delivery.utils.launchFragmentInHiltContainer
 import com.mz.mozio.pizza_delivery.utils.viewIsDisplayed
 import com.mz.mozio.pizza_delivery.utils.viewWith
+import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mockito.mock
 
 @HiltAndroidTest
+@UninstallModules(PizzaMenuModule::class)
 class OrderSuccessFragmentTest {
 
     private val context: Context = ApplicationProvider.getApplicationContext()
-    private val testNavController = TestNavHostController(context).apply {
-        UiThreadStatement.runOnUiThread {
-            setGraph(R.navigation.navigation_pizza)
-            setCurrentDestination(R.id.dialog_pizza_confirmation)
-        }
-    }
+
+    @BindValue
+    @JvmField
+    val coordinator: Coordinator<OrderEvent> = mock()
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -45,12 +46,6 @@ class OrderSuccessFragmentTest {
     }
 
     private fun launch() {
-        launchFragmentInHiltContainer<OrderSuccessFragment> {
-            lifecycleScope.launchWhenStarted {
-                if (view != null) {
-                    Navigation.setViewNavController(view!!, testNavController)
-                }
-            }
-        }
+        launchFragmentInHiltContainer<OrderSuccessFragment>()
     }
 }
