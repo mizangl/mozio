@@ -4,9 +4,11 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mz.mozio.pizza_delivery.confirmationSheet.ConfirmationEvent
 import com.mz.mozio.pizza_delivery.confirmationSheet.ConfirmationState
 import com.mz.mozio.pizza_delivery.pizza_menu.model.OrderModel
+import com.mz.mozio.pizza_delivery.pizza_menu.navigation.OnBackClicked
 import com.mz.mozio.pizza_delivery.pizza_menu.navigation.OrderCoordinator
 import io.mockk.mockk
 import io.mockk.unmockkAll
+import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -59,6 +61,14 @@ class ConfirmationViewModelTest {
 
         Assert.assertNotNull(event)
         Assert.assertTrue(event is ConfirmationEvent.OnConfirmClicked)
+    }
+
+    @Test
+    fun `test navigate back`() {
+        confirmationViewModel.setup(OrderModel(mockk(relaxed = true)))
+        confirmationViewModel.navigateBack()
+
+        verify { mockCoordinator.onEvent(OnBackClicked) }
     }
 
     companion object {

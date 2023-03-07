@@ -1,6 +1,7 @@
 package com.mz.mozio.pizza_delivery.pizza_menu.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.mz.mozio.pizza_delivery.core.navigation.Coordinator
 import com.mz.mozio.pizza_delivery.core.viewmodel.PizzaViewModel
 import com.mz.mozio.pizza_delivery.data.api.Success
 import com.mz.mozio.pizza_delivery.data.repository.PizzaMenuRepository
@@ -10,7 +11,7 @@ import com.mz.mozio.pizza_delivery.pizza_menu.model.OrderModel
 import com.mz.mozio.pizza_delivery.pizza_menu.model.PizzaModel
 import com.mz.mozio.pizza_delivery.pizza_menu.model.toModel
 import com.mz.mozio.pizza_delivery.pizza_menu.navigation.OnCheckoutOrder
-import com.mz.mozio.pizza_delivery.pizza_menu.navigation.OrderCoordinator
+import com.mz.mozio.pizza_delivery.pizza_menu.navigation.OrderEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PizzaMenuViewModel @Inject constructor(
     private val repository: PizzaMenuRepository,
-    private val coordinator: OrderCoordinator,
+    private val coordinator: Coordinator<OrderEvent>,
 ) : PizzaViewModel<PizzaMenuEvent, PizzaMenuState>() {
 
     init {
