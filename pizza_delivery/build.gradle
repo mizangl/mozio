@@ -83,6 +83,7 @@ dependencies {
     // testing fragments
     debugImplementation "androidx.fragment:fragment-testing:1.5.5"
     debugImplementation "androidx.test:monitor:1.6.1"
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 
     // di
     implementation "com.google.dagger:hilt-android:2.44"
