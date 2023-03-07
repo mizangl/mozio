@@ -34,9 +34,9 @@ Write an app that has the following features:
 
 ## Result
 
-PizzaDelivery follows a simple version of MVI pattern, ViewModel acts as Reducers.
+PizzaDelivery follows a simple version of MVI pattern, ViewModel acts as Reducers. Coordinator pattern for flow navigation
 
-<img src=https://user-images.githubusercontent.com/63661111/222925286-90fb789e-6436-4129-83d3-0635801a9681.png width=600/>
+<img src=https://user-images.githubusercontent.com/63661111/223268667-9a9c4175-663d-478a-9114-8c9a8ca92c37.jpg width=600/>
 
 ### Setup
 1. Clone the repository https://github.com/mizangl/mozio.git
